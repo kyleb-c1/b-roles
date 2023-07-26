@@ -9,7 +9,7 @@ import (
 	"github.com/conductorone/baton-sdk/pkg/pagination"
 	sdkEntitlement "github.com/conductorone/baton-sdk/pkg/types/entitlement"
 	sdkResource "github.com/conductorone/baton-sdk/pkg/types/resource"
-	"github.com/kyleb-c1/b-roles/cmd/config"
+	"github.com/kyleb-c1/b-roles/cmd/baton-roles/config"
 )
 
 type RolesConnector struct {

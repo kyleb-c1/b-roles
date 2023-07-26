@@ -9,7 +9,7 @@ import (
 	"github.com/conductorone/baton-sdk/pkg/connectorbuilder"
 	"github.com/conductorone/baton-sdk/pkg/types"
 	"github.com/grpc-ecosystem/go-grpc-middleware/logging/zap/ctxzap"
-	"github.com/kyleb-c1/b-roles/cmd/config"
+	"github.com/kyleb-c1/b-roles/cmd/baton-roles/config"
 	"github.com/kyleb-c1/b-roles/pkg/connector"
 	"go.uber.org/zap"
 )
@@ -46,6 +46,11 @@ func getConnector(ctx context.Context, cfg *config.Config) (types.ConnectorServe
 	if err != nil {
 		l.Error("error creating connector", zap.Error(err))
 		return nil, err
+	}
+
+	// Print out the roles imported from the config file
+	for roleName, _ := range cfg.Roles {
+		fmt.Println("Imported role:", roleName)
 	}
 
 	c, err := connectorbuilder.NewConnector(ctx, cb)

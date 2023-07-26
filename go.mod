@@ -1,9 +1,4 @@
-module github.com/kyleb-c1/baton-roles
+module github.com/kyleb-c1/b-roles
+module github.com/kyleb-c1/cmd/baton-roles
 
-go 1.16
-
-require (
-	github.com/conductorone/baton-sdk v0.1.1
-	gopkg.in/yaml.v2 v2.4.0
-)
-
+go 1.20
