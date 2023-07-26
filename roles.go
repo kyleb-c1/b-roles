@@ -1,4 +1,4 @@
-package connector
+package main
 
 import (
 	"context"
@@ -9,14 +9,13 @@ import (
 	"github.com/conductorone/baton-sdk/pkg/pagination"
 	sdkEntitlement "github.com/conductorone/baton-sdk/pkg/types/entitlement"
 	sdkResource "github.com/conductorone/baton-sdk/pkg/types/resource"
-	"github.com/kyleb-c1/b-roles/cmd/baton-roles/config"
 )
 
 type RolesConnector struct {
-	config *config.Config
+	config *Config
 }
 
-func New(config *config.Config) *RolesConnector {
+func New(config *Config) *RolesConnector {
 	return &RolesConnector{
 		config: config,
 	}
