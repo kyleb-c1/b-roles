@@ -17,7 +17,12 @@ var version = "dev"
 func main() {
 	ctx := context.Background()
 
-	cfg := &Config{}
+	cfg, err := Load("test-roles.yaml")
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Error loading configuration:", err)
+		os.Exit(1)
+	}
+
 	cmd, err := cli.NewCmd(ctx, "baton-roles", cfg, validateConfig, getConnector)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
