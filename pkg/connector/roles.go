@@ -4,12 +4,12 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/ConductorOne/baton-sdk/pkg/annotations"
-	"github.com/ConductorOne/baton-sdk/pkg/pagination"
 	v2 "github.com/conductorone/baton-sdk/pb/c1/connector/v2"
+	"github.com/conductorone/baton-sdk/pkg/annotations"
+	"github.com/conductorone/baton-sdk/pkg/pagination"
 	sdkEntitlement "github.com/conductorone/baton-sdk/pkg/types/entitlement"
 	sdkResource "github.com/conductorone/baton-sdk/pkg/types/resource"
-	"github.com/yourusername/baton-roles/pkg/config"
+	"github.com/kyleb-c1/b-roles/cmd/config"
 )
 
 type RolesConnector struct {

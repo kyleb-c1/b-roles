@@ -1,38 +1,58 @@
 package main
 
 import (
-	"flag"
+	"context"
 	"fmt"
+	"os"
 
-	"github.com/ConductorOne/baton-sdk/pkg/client"
-	"github.com/ConductorOne/baton-sdk/pkg/connector"
-	"github.com/yourusername/baton-roles/pkg/config"
+	"github.com/conductorone/baton-sdk/pkg/cli"
+	"github.com/conductorone/baton-sdk/pkg/connectorbuilder"
+	"github.com/conductorone/baton-sdk/pkg/types"
+	"github.com/grpc-ecosystem/go-grpc-middleware/logging/zap/ctxzap"
+	"github.com/kyleb-c1/b-roles/cmd/config"
+	"github.com/kyleb-c1/b-roles/pkg/connector"
+	"go.uber.org/zap"
 )
 
+var version = "dev"
+
 func main() {
-	clientID := flag.String("client_id", "", "Client ID")
-	clientSecret := flag.String("client_secret", "", "Client Secret")
-	configFile := flag.String("config", "", "Path to the YAML configuration file")
+	ctx := context.Background()
 
-	flag.Parse()
-
-	if *clientID == "" || *clientSecret == "" || *configFile == "" {
-		fmt.Println("You must provide a client_id, client_secret, and config file.")
-		return
-	}
-
-	cfg, err := config.Load(*configFile)
+	cfg := &config.Config{}
+	cmd, err := cli.NewCmd(ctx, "baton-roles", cfg, validateConfig, getConnector)
 	if err != nil {
-		fmt.Println("Failed to load configuration:", err)
-		return
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
 	}
+	cmd.Version = version
 
-	cli, err := client.New(*clientID, *clientSecret)
+	err = cmd.Execute()
 	if err != nil {
-		fmt.Println("Failed to create client:", err)
-		return
+		fmt.Fprintln(os.Stderr, err.Error())
+		os.Exit(1)
+	}
+}
+
+func validateConfig(cfg *config.Config) error {
+	// Add any validation logic for your configuration here.
+	// Return an error if the configuration is invalid.
+	return nil
+}
+
+func getConnector(ctx context.Context, cfg *config.Config) (types.ConnectorServer, error) {
+	l := ctxzap.Extract(ctx)
+	cb, err := connector.New(cfg)
+	if err != nil {
+		l.Error("error creating connector", zap.Error(err))
+		return nil, err
 	}
 
-	conn := connector.New(cli, cfg)
-	conn.Start()
+	c, err := connectorbuilder.NewConnector(ctx, cb)
+	if err != nil {
+		l.Error("error creating connector", zap.Error(err))
+		return nil, err
+	}
+
+	return c, nil
 }
