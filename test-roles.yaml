@@ -1,0 +1,14 @@
+roles: 
+    security_engineer: 
+        entitlements: 
+            - entitlement_id_1
+            - entitlement_id_2
+    sales_engineer: 
+        entitlements: 
+            - entitlement_id_3
+            - entitlement_id_4
+    developer: 
+        entitlements: 
+            - entitlement_id_5
+            - entitlement_id_6
+

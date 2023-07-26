@@ -32,7 +32,7 @@ func main() {
 	}
 }
 
-func validateConfig(cfg *Config) error {
+func validateConfig(ctx context.Context, cfg *Config) error {
 	// Add any validation logic for your configuration here.
 	// Return an error if the configuration is invalid.
 	return nil

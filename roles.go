@@ -24,7 +24,7 @@ func New(config *Config) *RolesConnector {
 // ResourceType returns the resource type of the connector
 func (c *RolesConnector) ResourceType(ctx context.Context) *v2.ResourceType {
 	return &v2.ResourceType{
-		Name:        "Role",
+		DisplayName: "Role",
 		Description: "Role from YAML configuration",
 	}
 }
@@ -51,7 +51,7 @@ func (c *RolesConnector) Entitlements(ctx context.Context, resource *v2.Resource
 
 	var entitlements []*v2.Entitlement
 	for _, entitlementID := range role.Entitlements {
-		entitlement := sdkEntitlement.NewEntitlement(resource, entitlementID, sdkEntitlement.WithGrantableTo(userResourceType))
+		entitlement := sdkEntitlement.NewPermissionEntitlement(resource, entitlementID, sdkEntitlement.WithDisplayName(resource.DisplayName))
 		entitlements = append(entitlements, entitlement)
 	}
 	return entitlements, "", nil, nil
